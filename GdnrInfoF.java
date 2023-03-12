@@ -50,6 +50,8 @@ public class GdnrInfoF extends JFrame {
 	private boolean exec;
 	private JFrame infoF;
 	private JList jListDays;
+	private double hoursCt = 0;
+	private String allDays = "";
 	
 	static DefaultTableModel model = new DefaultTableModel();
 	private SQLiteConnection sqliteConn = new SQLiteConnection();
@@ -230,13 +232,15 @@ public class GdnrInfoF extends JFrame {
 		
 		JLabel hoursLabel = new JLabel("Volunteer Hours");
 		hoursLabel.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		hoursLabel.setBounds(307, 430, 146, 34);
+		hoursLabel.setBounds(270, 435, 146, 34);
 		gdnrPane.add(hoursLabel);
 		
-		hoursTxt = new JTextField();
+		hoursTxt = new JTextField("0");
 		hoursTxt.setColumns(10);
-		hoursTxt.setBounds(307, 464, 133, 19);
+		hoursTxt.setBounds(270, 469, 117, 19);
 		hoursTxt.setText(hours.toString());
+		hoursCt = Double.parseDouble(hoursTxt.getText());
+		hoursTxt.setColumns(10);
 		gdnrPane.add(hoursTxt);
 		
 		JLabel reasonLabel = new JLabel("Reasoning");
@@ -257,7 +261,7 @@ public class GdnrInfoF extends JFrame {
 			}
 		});
 		closeBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		closeBtn.setBounds(534, 482, 103, 31);
+		closeBtn.setBounds(574, 469, 103, 31);
 		gdnrPane.add(closeBtn);
 		
 		JButton updateBtn = new JButton("Update");
@@ -272,7 +276,10 @@ public class GdnrInfoF extends JFrame {
 					pr.setString(3, (String) cboxLevel.getSelectedItem());
 					pr.setString(4, emailTxt.getText());
 					pr.setString(5, hoursTxt.getText());
-					//pr.setString(6, days.getSelectedValue().toString()); // fix!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+					if (jListDays.getSelectedValues().toString().contains("[")||jListDays.getSelectedValues().toString().contains("]")) {
+						jListDays.toString().replace("[","");
+						jListDays.toString().replace("]","");
+					}
 					pr.setString(6, jListDays.getSelectedValuesList().toString());
 					pr.setString(7, reasonTxtArea.getText());
 					if (execChkBx.isSelected()) {
@@ -291,8 +298,30 @@ public class GdnrInfoF extends JFrame {
 			}
 		});
 		
+		JButton addHalf = new JButton("+0.5");
+		addHalf.setBounds(397, 468, 70, 21);
+		addHalf.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hoursCt += 0.5;
+				hoursTxt.setText(hoursCt+"");
+				System.out.println(hoursCt);
+			}
+		});
+		gdnrPane.add(addHalf);
+		
+		JButton addOne = new JButton("+1");
+		addOne.setBounds(477, 468, 70, 21);
+		addOne.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				hoursCt += 1;
+				hoursTxt.setText(hoursCt+"");
+				System.out.println(hoursCt);
+			}
+		});
+		gdnrPane.add(addOne);
+		
 		updateBtn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		updateBtn.setBounds(647, 482, 103, 31);
+		updateBtn.setBounds(687, 469, 95, 31);
 		gdnrPane.add(updateBtn);
 		
 		textField = new JTextField();

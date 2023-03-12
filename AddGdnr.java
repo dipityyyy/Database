@@ -274,7 +274,8 @@ public class AddGdnr extends JFrame{
 		});
 		jListDays.setBounds(25, 317, 155, 102);
 		panel_1.add(jListDays);
-				JButton addHalf = new JButton("+0.5");
+		
+		JButton addHalf = new JButton("+0.5");
 		addHalf.setBounds(169, 254, 85, 21);
 		addHalf.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -312,6 +313,10 @@ public class AddGdnr extends JFrame{
 					pst.setString(4, (String) cboxLevel.getSelectedItem());
 					pst.setString(5, jtxtfEmail.getText());
 					pst.setString(6, hoursCt+"");
+					if (jListDays.getSelectedValues().toString().contains("[")||jListDays.getSelectedValues().toString().contains("]")) {
+						jListDays.toString().replace("[","");
+						jListDays.toString().replace("]","");
+					}
 					pst.setString(7, jListDays.getSelectedValuesList().toString());
 					pst.setString(8, jtxtareaReason.getText());
 					if (chckbxExec.isSelected()) {
